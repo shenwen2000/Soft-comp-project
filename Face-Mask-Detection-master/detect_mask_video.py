@@ -5,8 +5,9 @@ from tensorflow.keras.models import load_model
 from imutils.video import VideoStream
 import numpy as np
 import imutils
+import time
 import cv2
-
+import os
 
 def detect_and_predict_mask(frame, faceNet, maskNet):
 	# grab the dimensions of the frame and then construct a blob
@@ -80,7 +81,7 @@ maskNet = load_model("mask_detector.model")
 
 # initialize the video stream
 print("[INFO] starting video stream...")
-vs = VideoStream(src=1).start()
+vs = VideoStream(src=0).start()
 
 # loop over the frames from the video stream
 while True:
@@ -98,15 +99,15 @@ while True:
 	for (box, pred) in zip(locs, preds):
 		# unpack the bounding box and predictions
 		(startX, startY, endX, endY) = box
-		(mask, improperMask) = pred
+		(proper, improper) = pred
 
 		# determine the class label and color we'll use to draw
 		# the bounding box and text
-		label = "Mask wear properly" if mask > improperMask else "improper Mask"
-		color = (0, 255, 0) if label == "Mask wear properly" else (0, 0, 255)
+		label = "Proper" if proper < improper else "Improper"
+		color = (0, 255, 0) if label == "Proper" else (0, 0, 255)
 
 		# include the probability in the label
-		label = "{}: {:.2f}%".format(label, max(mask, improperMask) * 100)
+		label = "{}: {:.2f}%".format(label, max(proper, improper) * 100)
 
 		# display the label and bounding box rectangle on the output
 		# frame
