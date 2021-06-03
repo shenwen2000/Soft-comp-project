@@ -15,6 +15,7 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
+from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -26,7 +27,7 @@ EPOCHS = 15
 BS = 32
 
 DIRECTORY = r"D:\WIA2005_Lab1\Face-Mask-Detection-master\dataset"
-CATEGORIES = ["with_mask", "improper_mask"]
+CATEGORIES = ["proper_mask", "improper_mask"]
 
 # grab the list of images in our dataset directory, then initialize
 # the list of data (i.e., images) and class images
