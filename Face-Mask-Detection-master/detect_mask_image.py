@@ -80,15 +80,15 @@ for i in range(0, detections.shape[2]):
 
 		# pass the face through the model to determine if the face
 		# has a mask or not
-		(proper, improper) = model.predict(face)[0]
+		(correct, incorrect) = model.predict(face)[0]
 
 		# determine the class label and color we'll use to draw
 		# the bounding box and text
-		label = "Proper" if proper > improper else "Improper Mask"
-		color = (0, 255, 0) if label == "Proper" else (0, 0, 255)
+		label = "Correctly mask" if correct > incorrect else "Incorrectly mask"
+		color = (0, 255, 0) if label == "Correctly mask" else (0, 0, 255)
 
 		# include the probability in the label
-		label = "{}: {:.2f}%".format(label, max(proper, improper) * 100)
+		label = "{}: {:.2f}%".format(label, max(correct, incorrect) * 100)
 
 		# display the label and bounding box rectangle on the output
 		# frame
